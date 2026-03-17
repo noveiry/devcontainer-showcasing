@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: OrderService
+  namespace: microservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: OrderService
+  template:
+    metadata:
+      labels:
+        app: OrderService
+    spec:
+      containers:
+      - name: OrderService
+        image: OrderService:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8082
+        env:
+        - name: PORT
+          value: "8082"
+        - name: PRODUCT_SERVICE_URL
+          value: "http://product-service:8081"
+        - name: INVENTORY_SERVICE_URL
+          value: "http://inventory-service:8082"
+        - name: PAYMENT_SERVICE_URL
+          value: "http://payment-service:8083"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: OrderService
+  namespace: microservices
+spec:
+  selector:
+    app: OrderService
+  ports:
+  - protocol: TCP
+    port: 8082
+    targetPort: 8082
+  type: ClusterIP

@@ -4,10 +4,10 @@
 This solution consists of 4 microservices built with .NET Core 8, all integrated with Azure Application Insights for comprehensive monitoring and telemetry.
 
 ### Services:
-1. **OrderService** (Port 5001) - Main API that orchestrates orders
-2. **ProductService** (Port 5002) - Manages product catalog
-3. **InventoryService** (Port 5003) - Handles inventory and stock
-4. **PaymentService** (Port 5004) - Processes payments
+1. **InventoryService** (Port 8081) - Handles inventory and stock
+2. **OrderService** (Port 8082) - Main API that orchestrates orders
+3. **PaymentService** (Port 8083) - Processes payments
+4. **ProductService** (Port 8084) - Manages product catalog
 
 ## Prerequisites
 - .NET Core 8 SDK
@@ -145,22 +145,22 @@ dotnet run
 
 **1. Get All Products**
 ```
-GET http://localhost:5002/api/products
+GET http://localhost:8083/api/products
 ```
 
 **2. Get Specific Product**
 ```
-GET http://localhost:5002/api/products/PROD001
+GET http://localhost:8083/api/products/PROD001
 ```
 
 **3. Check Inventory**
 ```
-GET http://localhost:5003/api/inventory/PROD001
+GET http://localhost:8081/api/inventory/PROD001
 ```
 
 **4. Create Order (Full Flow)**
 ```
-POST http://localhost:5001/api/orders
+POST http://localhost:8082/api/orders
 Content-Type: application/json
 
 {
@@ -172,12 +172,12 @@ Content-Type: application/json
 
 **5. Get Payment Stats**
 ```
-GET http://localhost:5004/api/payments/stats/summary
+GET http://localhost:8083/api/payments/stats/summary
 ```
 
 **6. Reserve Inventory**
 ```
-POST http://localhost:5003/api/inventory/reserve
+POST http://localhost:8081/api/inventory/reserve
 Content-Type: application/json
 
 {
@@ -188,7 +188,7 @@ Content-Type: application/json
 
 **7. Process Refund**
 ```
-POST http://localhost:5004/api/payments/{paymentId}/refund
+POST http://localhost:8083/api/payments/{paymentId}/refund
 Content-Type: application/json
 
 {
@@ -337,7 +337,7 @@ exceptions
 
 **Issue: Services can't communicate**
 - Ensure all services are running
-- Check port numbers (5001-5004)
+- Check port numbers (8081-8084)
 - Verify firewall settings
 
 **Issue: Build errors**

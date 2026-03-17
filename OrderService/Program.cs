@@ -36,7 +36,7 @@ app.MapPost("/api/orders", async (HttpContext context, IHttpClientFactory client
         }
         
         // Call Product Service to validate product
-        var productResponse = await client.GetAsync($"http://localhost:5002/api/products/{order.ProductId}");
+        var productResponse = await client.GetAsync($"http://product-service:8084/api/products/{order.ProductId}");
         if (!productResponse.IsSuccessStatusCode)
         {
             logger.LogWarning("Product {ProductId} not found", order.ProductId);
@@ -46,7 +46,7 @@ app.MapPost("/api/orders", async (HttpContext context, IHttpClientFactory client
         var product = await productResponse.Content.ReadFromJsonAsync<Product>();
         
         // Call Inventory Service to check stock
-        var inventoryResponse = await client.GetAsync($"http://localhost:5003/api/inventory/{order.ProductId}");
+        var inventoryResponse = await client.GetAsync($"http://inventory-service:8081/api/inventory/{order.ProductId}");
         var inventory = await inventoryResponse.Content.ReadFromJsonAsync<InventoryItem>();
         
         if (inventory == null || inventory.Quantity < order.Quantity)
@@ -63,7 +63,7 @@ app.MapPost("/api/orders", async (HttpContext context, IHttpClientFactory client
         
         // Call Payment Service
         var paymentRequest = new { OrderId = order.OrderId, Amount = order.TotalAmount };
-        var paymentResponse = await client.PostAsJsonAsync("http://localhost:5004/api/payments", paymentRequest);
+        var paymentResponse = await client.PostAsJsonAsync("http://payment-service:8083/api/payments", paymentRequest);
         
         if (!paymentResponse.IsSuccessStatusCode)
         {
@@ -118,7 +118,7 @@ app.MapGet("/api/orders", (ILogger<Program> logger) =>
     return Results.Ok(orders);
 });
 
-app.Run("http://localhost:5001");
+app.Run();
 
 // Models
 public class Order

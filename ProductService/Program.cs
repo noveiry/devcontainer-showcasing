@@ -111,7 +111,7 @@ app.MapGet("/api/products/category/{category}", (string category, ILogger<Progra
     return Results.Ok(categoryProducts);
 });
 
-app.Run("http://localhost:5002");
+app.Run();
 
 // Models
 public class Product

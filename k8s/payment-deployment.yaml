@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: PaymentService
+  namespace: microservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: PaymentService
+  template:
+    metadata:
+      labels:
+        app: PaymentService
+    spec:
+      containers:
+      - name: PaymentService
+        image: PaymentService:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8083
+        env:
+        - name: PORT
+          value: "8083"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: PaymentService
+  namespace: microservices
+spec:
+  selector:
+    app: PaymentService
+  ports:
+  - protocol: TCP
+    port: 8083
+    targetPort: 8083
+  type: ClusterIP

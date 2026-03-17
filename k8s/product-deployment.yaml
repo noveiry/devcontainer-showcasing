@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ProductService
+  namespace: microservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ProductService
+  template:
+    metadata:
+      labels:
+        app: ProductService
+    spec:
+      containers:
+      - name: ProductService
+        image: ProductService:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8084
+        env:
+        - name: PORT
+          value: "8084"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ProductService
+  namespace: microservices
+spec:
+  selector:
+    app: ProductService
+  ports:
+  - protocol: TCP
+    port: 8084
+    targetPort: 8084
+  type: ClusterIP
