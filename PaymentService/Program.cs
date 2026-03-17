@@ -175,7 +175,7 @@ app.MapGet("/api/payments/stats/summary", (ILogger<Program> logger) =>
     return Results.Ok(stats);
 });
 
-app.Run();
+app.Run("http://0.0.0.0:5003");
 
 // Models
 public class Payment

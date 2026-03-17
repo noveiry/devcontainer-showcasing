@@ -20,7 +20,7 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Expose port (adjust if needed)
-EXPOSE 8081
+EXPOSE 5001
 
 # Run the application
 ENTRYPOINT ["dotnet", "InventoryService.dll"]

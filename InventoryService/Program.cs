@@ -147,7 +147,7 @@ app.MapPut("/api/inventory/{productId}", (string productId, InventoryUpdate upda
     return Results.Ok(item);
 });
 
-app.Run();
+app.Run("http://0.0.0.0:5001");
 
 // Models
 public class InventoryItem

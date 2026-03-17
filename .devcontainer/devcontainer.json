@@ -14,10 +14,7 @@
     "features": {
         "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
     },
-    "mounts": [
-        "source=C:/Users/105010taza.kube/config,target=/home/vscode/.kube/config,type=bind,consistency=cached"
-    ],
-
+    
     // VPN capabilities
     "runArgs": [
         "--cap-add=NET_ADMIN",
@@ -47,7 +44,9 @@
 
     "workspaceFolder": "/workspace",
     "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
-
+    "mounts": [
+        "source=${localEnv:USERPROFILE}\\.kube\\config,target=/root/.kube/config,type=bind,consistency=cached"
+    ],
     "remoteUser": "vscode",
     "containerUser": "vscode",
     "shutdownAction": "stopContainer",

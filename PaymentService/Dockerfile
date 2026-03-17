@@ -20,7 +20,7 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Expose port (adjust if needed)
-EXPOSE 8083
+EXPOSE 5003
 
 # Run the application
 ENTRYPOINT ["dotnet", "PaymentService.dll"]

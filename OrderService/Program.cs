@@ -46,7 +46,7 @@ app.MapPost("/api/orders", async (HttpContext context, IHttpClientFactory client
         var product = await productResponse.Content.ReadFromJsonAsync<Product>();
         
         // Call Inventory Service to check stock
-        var inventoryResponse = await client.GetAsync($"http://inventory-service:8081/api/inventory/{order.ProductId}");
+        var inventoryResponse = await client.GetAsync($"http://inventory-service:5001/api/inventory/{order.ProductId}");
         var inventory = await inventoryResponse.Content.ReadFromJsonAsync<InventoryItem>();
         
         if (inventory == null || inventory.Quantity < order.Quantity)
@@ -118,7 +118,7 @@ app.MapGet("/api/orders", (ILogger<Program> logger) =>
     return Results.Ok(orders);
 });
 
-app.Run();
+app.Run("http://0.0.0.0:5002");
 
 // Models
 public class Order

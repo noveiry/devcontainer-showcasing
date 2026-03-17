@@ -20,7 +20,7 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Expose port (adjust if needed)
-EXPOSE 8082
+EXPOSE 5002
 
 # Run the application
 ENTRYPOINT ["dotnet", "OrderService.dll"]
